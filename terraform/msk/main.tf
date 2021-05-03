@@ -1,5 +1,5 @@
 provider "aws" {
-  profile = "nvoigt"
+  profile = "dev-thinkport"
   region  = "eu-central-1"
 }
 
@@ -200,5 +200,5 @@ output "bootstrap_brokers_tls" {
 
 output "kafka_subnet" {
   description = "The subnet where kafka will be set up"
-  value       = private_vpc_id
+  value       = var.private_vpc_id
 }
