@@ -32,8 +32,8 @@ resource "aws_ecs_task_definition" "consumer-task-definition" {
     "entryPoint": ["/"],
     "portMappings": [
       {
-        "containerPort": 80,
-        "hostPort": 80
+        "containerPort": 8080,
+        "hostPort": 8080
       }
     ]
   }
