@@ -24,8 +24,8 @@ resource "aws_ecs_task_definition" "producer-task-definition" {
   container_definitions    = <<EOF
 [
   {
-    "name": "demo-container",
-    "image": "123456789012.dkr.ecr.us-east-1.amazonaws.com/demo-repo:1.0",
+    "name": "webinar-kafka-ops-producer",
+    "image": "562760952310.dkr.ecr.eu-central-1.amazonaws.com/webinar-kafka-ops-producer:latest",
     "memory": 1024,
     "cpu": 512,
     "essential": true,
