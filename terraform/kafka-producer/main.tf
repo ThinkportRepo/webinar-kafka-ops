@@ -1,1 +1,4 @@
-//TODO Add EC2 or Fargate with image of the producer
+module "kafka" {
+  source = "../msk"
+  subnet = [module.kafka.kafka_subnet]
+}

@@ -8,7 +8,9 @@ resource "aws_ecs_service" "demo-ecs-service-two" {
   task_definition = aws_ecs_task_definition.consumer-task-definition.arn
   launch_type     = "FARGATE"
   network_configuration {
-    subnets          = ["subnet-05t93f90b22ba76qx"]
+    subnets          = [
+      module.kafka.kafka_subnet
+    ]
     assign_public_ip = true
   }
   desired_count = 1

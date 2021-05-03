@@ -1,5 +1,5 @@
 provider "aws" {
-  profile = "lcsoti"
+  profile = "nvoigt"
   region  = "eu-central-1"
 }
 
@@ -196,4 +196,9 @@ output "zookeeper_connect_string" {
 output "bootstrap_brokers_tls" {
   description = "TLS connection host:port pairs"
   value       = aws_msk_cluster.webinar-kafka-ops.bootstrap_brokers_tls
+}
+
+output "kafka_subnet" {
+  description = "The subnet where kafka will be set up"
+  value       = private_vpc_id
 }
