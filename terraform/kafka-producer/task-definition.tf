@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "producer-ecs-cluster" {
 }
 
 resource "aws_ecs_service" "demo-ecs-service-two" {
-  name            = "demo-app"
+  name            = "webinar-kafka-ops-consumer"
   cluster         = aws_ecs_cluster.producer-ecs-cluster.id
   task_definition = aws_ecs_task_definition.producer-task-definition.arn
   launch_type     = "FARGATE"
