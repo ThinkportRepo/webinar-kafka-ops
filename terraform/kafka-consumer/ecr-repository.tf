@@ -6,7 +6,6 @@ resource "aws_ecr_repository" "repo-consumer" {
 
 resource "aws_ecr_repository_policy" "repo-consumer-policy" {
   repository = aws_ecr_repository.repo-consumer.name
-  tags       = local.tags
   policy     = <<EOF
   {
     "Version": "2008-10-17",
