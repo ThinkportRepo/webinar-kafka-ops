@@ -25,7 +25,7 @@ data "aws_availability_zone" "az3" {
 
 resource "aws_subnet" "subnet_az1" {
   availability_zone = data.aws_availability_zone.az1.name
-  cidr_block        = "10.20.30.64/28"
+  cidr_block        = "10.0.0.16/28"
   vpc_id            = var.private_vpc_id
   tags = merge(local.tags, {
     Name = "az1_private"
@@ -34,7 +34,7 @@ resource "aws_subnet" "subnet_az1" {
 
 resource "aws_subnet" "subnet_az2" {
   availability_zone = data.aws_availability_zone.az2.name
-  cidr_block        = "10.20.30.80/28"
+  cidr_block        = "10.0.0.32/28"
   vpc_id            = var.private_vpc_id
   tags = merge(local.tags, {
     Name = "az2_private"
@@ -43,7 +43,7 @@ resource "aws_subnet" "subnet_az2" {
 
 resource "aws_subnet" "subnet_az3" {
   availability_zone = data.aws_availability_zone.az3.name
-  cidr_block        = "10.20.30.96/28"
+  cidr_block        = "10.0.0.48/28"
   vpc_id            = var.private_vpc_id
   tags = merge(local.tags, {
     Name = "az3_private"
