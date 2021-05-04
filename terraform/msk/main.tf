@@ -25,7 +25,7 @@ data "aws_availability_zone" "az3" {
 
 resource "aws_subnet" "subnet_az1" {
   availability_zone = data.aws_availability_zone.az1.name
-  cidr_block        = "10.0.0.16/28"
+  cidr_block        = "10.20.30.64/28"
   vpc_id            = var.private_vpc_id
   tags = merge(local.tags, {
     Name = "az1_private"
@@ -34,7 +34,7 @@ resource "aws_subnet" "subnet_az1" {
 
 resource "aws_subnet" "subnet_az2" {
   availability_zone = data.aws_availability_zone.az2.name
-  cidr_block        = "10.0.0.32/28"
+  cidr_block        = "10.20.30.80/28"
   vpc_id            = var.private_vpc_id
   tags = merge(local.tags, {
     Name = "az2_private"
@@ -43,7 +43,7 @@ resource "aws_subnet" "subnet_az2" {
 
 resource "aws_subnet" "subnet_az3" {
   availability_zone = data.aws_availability_zone.az3.name
-  cidr_block        = "10.0.0.48/28"
+  cidr_block        = "10.20.30.96/28"
   vpc_id            = var.private_vpc_id
   tags = merge(local.tags, {
     Name = "az3_private"
@@ -113,9 +113,9 @@ resource "aws_kinesis_firehose_delivery_stream" "msk_broker_logs" {
   }
 }
 
-resource aws_msk_configuration "auto_create_topics" {
+resource aws_msk_configuration "auto-create-topics" {
   kafka_versions = ["2.7.0"]
-  name = "auto_create_topics"
+  name = "auto-create-topics"
   server_properties = <<PROPERTIES
     auto.create.topics.enable=true
     default.replication.factor=3
@@ -150,7 +150,7 @@ resource "aws_msk_cluster" "webinar-kafka-ops" {
   }
 
   configuration_info {
-    arn = aws_msk_configuration.auto_create_topics.arn
+    arn = aws_msk_configuration.auto-create-topics.arn
     revision = 0
   }
 
