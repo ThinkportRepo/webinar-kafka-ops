@@ -23,10 +23,10 @@ resource "aws_ecs_task_definition" "consumer-task-definition" {
   memory                   = "1024"
   cpu                      = "512"
   execution_role_arn       = "arn:aws:iam::562760952310:role/ecsTaskExecutionRole"
-  container_definitions    = json_encode(
+  container_definitions    = jsonencode(
   [
     {
-      name: webinar-kafka-ops-producer,
+      name: "webinar-kafka-ops-producer",
       image: "562760952310.dkr.ecr.eu-central-1.amazonaws.com/webinar-kafka-ops-consumer:latest",
       memory: 1024,
       cpu: 512,
@@ -39,7 +39,7 @@ resource "aws_ecs_task_definition" "consumer-task-definition" {
         }
       ],
       environment: [
-        {name: kafka_bootstrap_servers, value: module.kafka.bootstrap_brokers_tls}
+        {name: "kafka_bootstrap_servers", value: module.kafka.bootstrap_brokers_tls}
       ],
     }
   ]
