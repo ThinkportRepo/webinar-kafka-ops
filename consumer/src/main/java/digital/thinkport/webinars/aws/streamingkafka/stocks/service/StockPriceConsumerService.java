@@ -5,7 +5,6 @@ import digital.thinkport.webinars.aws.streamingkafka.stocks.model.Stock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -30,11 +29,12 @@ public class StockPriceConsumerService {
     }
 
     public void setNewPrice(KafkaStockMessage msg) {
-        if (stocks.containsKey(msg.getSymbol())) {
-            stocks.get(msg.getSymbol()).setPrice(msg.getPrice());
+        String symbol = msg.getSymbol();
+        if (stocks.containsKey(symbol)) {
+            stocks.get(symbol).setPrice(msg.getPrice());
         } else {
-            Stock s = new Stock(msg.getSymbol(), "FIXME", msg.getPrice(), "FIXME");
-            LOGGER.info("Consumed a new price for ".concat(msg.getSymbol()));
+            var s = new Stock(symbol, "FIXME", msg.getPrice(), "FIXME"); //FIXME
+            LOGGER.info("Consumed a new price for {}", symbol);
             addNewStock(s);
         }
     }

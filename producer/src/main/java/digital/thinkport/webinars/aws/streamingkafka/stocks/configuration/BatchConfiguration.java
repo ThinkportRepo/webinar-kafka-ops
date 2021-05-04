@@ -85,20 +85,20 @@ public class BatchConfiguration {
 
     @Scheduled(fixedDelay=10000)
     public void runJob() {
-        JobCompletionNotificationListener listener = new JobCompletionNotificationListener();
+        var listener = new JobCompletionNotificationListener();
         try {
             createJobLauncher().run(
               sendPricesToKafkaJob(listener, step1()),
               new JobParametersBuilder().toJobParameters()
             );
         } catch (JobExecutionAlreadyRunningException e) {
-            LOGGER.error("Job already running ".concat(e.getMessage()));
+            LOGGER.error("Job already running {}", e.getMessage());
         } catch (JobInstanceAlreadyCompleteException e) {
-            LOGGER.error("Job already completed ".concat(e.getMessage()));
+            LOGGER.error("Job already completed {}", e.getMessage());
         } catch (JobRestartException e) {
-            LOGGER.error("Job restart exception ".concat(e.getMessage()));
+            LOGGER.error("Job restart exception {}", e.getMessage());
         } catch (JobParametersInvalidException e) {
-            LOGGER.error("Job invalid parameters ".concat(e.getMessage()));
+            LOGGER.error("Job invalid parameters {}", e.getMessage());
         }
     }
 

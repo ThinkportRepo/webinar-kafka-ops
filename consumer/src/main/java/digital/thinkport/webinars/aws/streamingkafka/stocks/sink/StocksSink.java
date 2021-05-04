@@ -26,7 +26,7 @@ public class StocksSink {
         try {
             ksm = oMapper.readValue(message, KafkaStockMessage.class);
             spcs.setNewPrice(ksm);
-            LOGGER.info("new Kafka price for ".concat(symbol));
+            LOGGER.info("new Kafka price for {}", symbol);
         } catch (JsonProcessingException e) {
             LOGGER.error("Kafka conversion error");
         }

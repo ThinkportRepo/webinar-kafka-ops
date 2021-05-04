@@ -1,7 +1,5 @@
 package digital.thinkport.webinars.aws.streamingkafka.stocks.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -13,13 +11,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/stocks")
 public class StockPriceProducerController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(StockPriceProducerController.class);
 
     private static Map<String, Stock> stocks = new HashMap<>();
-
-
-    public StockPriceProducerController() {
-    }
 
     public Collection<Stock> getCurrentStockList() {
         return stocks.values();

@@ -26,12 +26,15 @@ public class KafkaMSKConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaMSKConfiguration.class);
 
+    @Value("${kafka_bootstrap_servers}")
+    private String bootstrapServers;
+
 
     @Bean
     public ProducerFactory<String, KafkaStockMessage> producerFactoryString() {
         Map<String, Object> configProps = new HashMap<>();
 
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); //TODO!!
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
@@ -54,13 +57,11 @@ public class KafkaMSKConfiguration {
 
             @Override
             public void onSuccess(SendResult<String, KafkaStockMessage> result) {
-                LOGGER.info("Sent message=[" + message +
-                        "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                LOGGER.info("Sent message=[{}] with offset=[{}]", message, result.getRecordMetadata().offset());
             }
             @Override
             public void onFailure(Throwable ex) {
-                LOGGER.info("Unable to send message=["
-                        + message + "] due to : " + ex.getMessage());
+                LOGGER.info("Unable to send message=[{}] due to : {}", message, ex.getMessage());
             }
         });
     }
