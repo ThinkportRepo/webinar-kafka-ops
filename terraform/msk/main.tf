@@ -56,11 +56,6 @@ resource "aws_security_group" "webinar_msk" {
   vpc_id = var.private_vpc_id
 }
 
-resource "aws_kms_key" "kms" {
-  description = "example"
-  tags = local.tags
-}
-
 resource "aws_cloudwatch_log_group" "msk_broker_logs" {
   name = "msk_broker_logs"
   tags = local.tags
@@ -113,7 +108,7 @@ resource "aws_kinesis_firehose_delivery_stream" "msk_broker_logs" {
   }
 }
 
-resource aws_msk_configuration "auto-create-topics" {
+resource aws_msk_configuration "auto_create_topics" {
   kafka_versions = ["2.7.0"]
   name = "auto-create-topics"
   server_properties = <<PROPERTIES
@@ -150,12 +145,12 @@ resource "aws_msk_cluster" "webinar-kafka-ops" {
   }
 
   configuration_info {
-    arn = aws_msk_configuration.auto-create-topics.arn
+    arn = aws_msk_configuration.auto_create_topics.arn
     revision = 0
   }
 
   encryption_info {
-    encryption_at_rest_kms_key_arn = aws_kms_key.kms.arn
+    encryption_at_rest_kms_key_arn = var.msk_key_arn
   }
 
   open_monitoring {
