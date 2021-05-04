@@ -1,10 +1,12 @@
 resource "aws_ecr_repository" "repo-consumer" {
   name                 = "webinar-kafka-ops-consumer"
   image_tag_mutability = "IMMUTABLE"
+  tags                 = local.tags
 }
 
 resource "aws_ecr_repository_policy" "repo-consumer-policy" {
   repository = aws_ecr_repository.repo-consumer.name
+  tags       = local.tags
   policy     = <<EOF
   {
     "Version": "2008-10-17",
