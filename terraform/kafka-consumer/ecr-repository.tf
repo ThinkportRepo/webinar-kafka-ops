@@ -1,6 +1,5 @@
 resource "aws_ecr_repository" "repo-consumer" {
   name                 = "webinar-kafka-ops-consumer"
-  image_tag_mutability = "IMMUTABLE"
   tags                 = local.tags
 }
 

@@ -35,6 +35,14 @@ resource "aws_ecs_task_definition" "consumer-task-definition" {
         image : "562760952310.dkr.ecr.eu-central-1.amazonaws.com/webinar-kafka-ops-consumer:latest",
         memory : 1024,
         cpu : 512,
+        logConfiguration: {
+          logDriver: "awslogs",
+          options: {
+            awslogs-group: "webinar-kafka-ops",
+            awslogs-region: "eu-central-1",
+            awslogs-stream-prefix: "consumer"
+          }
+        },
         essential : true,
         entryPoint : ["java", "-jar", "consumer-0.0.1-SNAPSHOT.jar"],
         portMappings : [

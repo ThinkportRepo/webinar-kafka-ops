@@ -1,6 +1,5 @@
 resource "aws_ecr_repository" "repo-producer" {
   name                 = "webinar-kafka-ops-producer"
-  image_tag_mutability = "IMMUTABLE"
   tags                 = local.tags
 }
 

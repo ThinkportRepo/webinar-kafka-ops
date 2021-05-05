@@ -36,3 +36,8 @@ variable "private_vpc_id" {
   default     = "vpc-09b84ce984e473d67"
   description = "Existing VPC"
 }
+
+resource "aws_cloudwatch_log_group" "producer_logs" {
+  name = "webinar-kafka-ops"
+  tags = local.tags
+}
