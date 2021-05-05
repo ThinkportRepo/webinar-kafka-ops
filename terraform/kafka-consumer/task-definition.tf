@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "consumer-ecs-cluster" {
-  name = "ecs-consumer-cluster"
+  name = "webinar-kafka-ops-consumer"
   tags = local.tags
 }
 
@@ -11,7 +11,9 @@ resource "aws_ecs_service" "consumer-service" {
   tags            = local.tags
   network_configuration {
     subnets = [
-      module.kafka.kafka_subnet
+      aws_subnet.subnet_az1.id,
+      aws_subnet.subnet_az2.id,
+      aws_subnet.subnet_az3.id
     ]
     assign_public_ip = true
   }
@@ -19,7 +21,7 @@ resource "aws_ecs_service" "consumer-service" {
 }
 
 resource "aws_ecs_task_definition" "consumer-task-definition" {
-  family                   = "ecs-task-definition-demo"
+  family                   = "webinar-kafka-ops"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   memory                   = "1024"
@@ -42,7 +44,7 @@ resource "aws_ecs_task_definition" "consumer-task-definition" {
           }
         ],
         environment : [
-          { name : "kafka_bootstrap_servers", value : module.kafka.bootstrap_brokers_tls }
+          { name : "kafka_bootstrap_servers", value : var.kafka_connection_string }
         ],
       }
     ]
