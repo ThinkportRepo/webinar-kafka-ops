@@ -85,7 +85,7 @@ public class BatchConfiguration {
 
     @Scheduled(fixedDelay=10000)
     public void runJob() {
-        var listener = new JobCompletionNotificationListener();
+        JobCompletionNotificationListener listener = new JobCompletionNotificationListener();
         try {
             createJobLauncher().run(
               sendPricesToKafkaJob(listener, step1()),

@@ -33,7 +33,7 @@ public class StockPriceConsumerService {
         if (stocks.containsKey(symbol)) {
             stocks.get(symbol).setPrice(msg.getPrice());
         } else {
-            var s = new Stock(symbol, "FIXME", msg.getPrice(), "FIXME"); //FIXME
+            Stock s = new Stock(symbol, "FIXME", msg.getPrice(), "FIXME"); //FIXME
             LOGGER.info("Consumed a new price for {}", symbol);
             addNewStock(s);
         }

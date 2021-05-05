@@ -53,7 +53,7 @@ public class KafkaMSKConfiguration {
         ListenableFuture<SendResult<String, KafkaStockMessage>> future =
                 kafkaTemplate().send(topic, message);
 
-        future.addCallback(new ListenableFutureCallback<>() {
+        future.addCallback(new ListenableFutureCallback<SendResult<String, KafkaStockMessage>>() {
 
             @Override
             public void onSuccess(SendResult<String, KafkaStockMessage> result) {
