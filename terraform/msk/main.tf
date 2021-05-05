@@ -5,9 +5,9 @@ provider "aws" {
 
 locals {
   tags = {
-    project = "webinar-kafka-ops"
+    project     = "webinar-kafka-ops"
     responsible = "Laszlo Csoti"
-    ttl = "2021-05-30"
+    ttl         = "2021-05-30"
   }
 }
 
@@ -51,8 +51,8 @@ resource "aws_subnet" "subnet_az3" {
 }
 
 resource "aws_security_group" "webinar_msk" {
-  name = "webinar-msk"
-  tags = local.tags
+  name   = "webinar-msk"
+  tags   = local.tags
   vpc_id = var.private_vpc_id
 }
 
@@ -64,7 +64,7 @@ resource "aws_cloudwatch_log_group" "msk_broker_logs" {
 resource "aws_s3_bucket" "msk_broker_logs" {
   bucket = "msk-broker-logs-bucket-73h3tz3z2g"
   acl    = "private"
-  tags = local.tags
+  tags   = local.tags
 }
 
 resource "aws_iam_role" "msk_broker_logs" {
@@ -108,27 +108,27 @@ resource "aws_kinesis_firehose_delivery_stream" "msk_broker_logs" {
   }
 }
 
-resource aws_msk_configuration "auto_create_topics" {
+resource "aws_msk_configuration" "auto_create_topics" {
   kafka_versions = ["2.7.0"]
-  name = "auto-create-topics"
+  name              = "auto-create-topics"
   server_properties = <<PROPERTIES
-    auto.create.topics.enable=true
-    default.replication.factor=3
-    min.insync.replicas=2
-    num.io.threads=8
-    num.network.threads=5
-    num.partitions=1
-    num.replica.fetchers=2
-    replica.lag.time.max.ms=30000
-    socket.receive.buffer.bytes=102400
-    socket.request.max.bytes=104857600
-    socket.send.buffer.bytes=102400
-    unclean.leader.election.enable=true
-    zookeeper.session.timeout.ms=18000
-  PROPERTIES
+auto.create.topics.enable=true
+default.replication.factor=3
+min.insync.replicas=2
+num.io.threads=8
+num.network.threads=5
+num.partitions=1
+num.replica.fetchers=2
+replica.lag.time.max.ms=30000
+socket.receive.buffer.bytes=102400
+socket.request.max.bytes=104857600
+socket.send.buffer.bytes=102400
+unclean.leader.election.enable=true
+zookeeper.session.timeout.ms=18000
+PROPERTIES
 }
 
-resource "aws_msk_cluster" "webinar-kafka-ops" {
+resource "aws_msk_cluster" "webinar_kafka_ops" {
   cluster_name           = "webinar-kafka-ops"
   kafka_version          = "2.7.0"
   number_of_broker_nodes = 3
@@ -145,8 +145,8 @@ resource "aws_msk_cluster" "webinar-kafka-ops" {
   }
 
   configuration_info {
-    arn = aws_msk_configuration.auto_create_topics.arn
-    revision = 0
+    arn      = aws_msk_configuration.auto_create_topics.arn
+    revision = aws_msk_configuration.auto_create_topics.latest_revision
   }
 
   encryption_info {
@@ -186,12 +186,12 @@ resource "aws_msk_cluster" "webinar-kafka-ops" {
 }
 
 output "zookeeper_connect_string" {
-  value = aws_msk_cluster.webinar-kafka-ops.zookeeper_connect_string
+  value = aws_msk_cluster.webinar_kafka_ops.zookeeper_connect_string
 }
 
 output "bootstrap_brokers_tls" {
   description = "TLS connection host:port pairs"
-  value       = aws_msk_cluster.webinar-kafka-ops.bootstrap_brokers_tls
+  value       = aws_msk_cluster.webinar_kafka_ops.bootstrap_brokers_tls
 }
 
 output "kafka_subnet" {
