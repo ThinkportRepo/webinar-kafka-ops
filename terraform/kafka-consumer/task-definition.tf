@@ -11,9 +11,9 @@ resource "aws_ecs_service" "consumer-service" {
   tags            = local.tags
   network_configuration {
     subnets = [
-      aws_subnet.subnet_az1.id,
-      aws_subnet.subnet_az2.id,
-      aws_subnet.subnet_az3.id
+      var.subnet_az_1,
+      var.subnet_az_2,
+      var.subnet_az_3
     ]
     assign_public_ip = true
   }
@@ -31,12 +31,12 @@ resource "aws_ecs_task_definition" "consumer-task-definition" {
   container_definitions = jsonencode(
     [
       {
-        name : "webinar-kafka-ops-producer",
+        name : "webinar-kafka-ops-consumer",
         image : "562760952310.dkr.ecr.eu-central-1.amazonaws.com/webinar-kafka-ops-consumer:latest",
         memory : 1024,
         cpu : 512,
         essential : true,
-        entryPoint : ["/"],
+        entryPoint : ["java", "-jar", "consumer-0.0.1-SNAPSHOT.jar"],
         portMappings : [
           {
             containerPort : 8080,

@@ -4,16 +4,16 @@ resource "aws_ecs_cluster" "producer-ecs-cluster" {
 }
 
 resource "aws_ecs_service" "producer-service" {
-  name            = "webinar-kafka-ops-consumer"
+  name            = "webinar-kafka-ops-producer"
   cluster         = aws_ecs_cluster.producer-ecs-cluster.id
   task_definition = aws_ecs_task_definition.producer-task-definition.arn
   launch_type     = "FARGATE"
   tags            = local.tags
   network_configuration {
     subnets = [
-      aws_subnet.subnet_az1.id,
-      aws_subnet.subnet_az2.id,
-      aws_subnet.subnet_az3.id
+      var.subnet_az_1,
+      var.subnet_az_2,
+      var.subnet_az_3
     ]
     assign_public_ip = true
   }
@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "producer-task-definition" {
         memory : 1024,
         cpu : 512,
         essential : true,
-        entryPoint : ["/"],
+        entryPoint : ["java", "-jar", "producer-0.0.1-SNAPSHOT.jar"],
         portMappings : [
           {
             containerPort : 8080,

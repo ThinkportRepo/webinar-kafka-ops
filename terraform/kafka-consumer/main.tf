@@ -16,43 +16,19 @@ locals {
   }
 }
 
-data "aws_availability_zone" "az1" {
-  name = "eu-central-1a"
+variable "subnet_az_1" {
+  type = string
+  default = "subnet-0dad57b9ee2898291"
 }
 
-data "aws_availability_zone" "az2" {
-  name = "eu-central-1b"
+variable "subnet_az_2" {
+  type = string
+  default = "subnet-0c11185e624d0318c"
 }
 
-data "aws_availability_zone" "az3" {
-  name = "eu-central-1c"
-}
-
-resource "aws_subnet" "subnet_az1" {
-  availability_zone = data.aws_availability_zone.az1.name
-  cidr_block        = "10.0.0.16/28"
-  vpc_id            = var.private_vpc_id
-  tags = merge(local.tags, {
-    Name = "az1_private"
-  })
-}
-
-resource "aws_subnet" "subnet_az2" {
-  availability_zone = data.aws_availability_zone.az2.name
-  cidr_block        = "10.0.0.32/28"
-  vpc_id            = var.private_vpc_id
-  tags = merge(local.tags, {
-    Name = "az2_private"
-  })
-}
-
-resource "aws_subnet" "subnet_az3" {
-  availability_zone = data.aws_availability_zone.az3.name
-  cidr_block        = "10.0.0.48/28"
-  vpc_id            = var.private_vpc_id
-  tags = merge(local.tags, {
-    Name = "az3_private"
-  })
+variable "subnet_az_3" {
+  type = string
+  default = "subnet-071b92b9400843087"
 }
 
 variable "private_vpc_id" {
