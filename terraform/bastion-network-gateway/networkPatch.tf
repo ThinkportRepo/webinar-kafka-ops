@@ -4,58 +4,14 @@ resource "aws_key_pair" "bastion_key" {
   tags = local.tags
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = var.private_vpc_id
-  tags = local.tags
-}
-
-resource "aws_route_table" "public_route_table_az1" {
-  vpc_id = var.private_vpc_id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-  tags = local.tags
-}
-resource "aws_route_table_association" "public_rt_association_az1" {
-  route_table_id = aws_route_table.public_route_table_az1.id
-  subnet_id = var.subnet_az_1
-}
-
-resource "aws_route_table" "public_route_table_az2" {
-  vpc_id = var.private_vpc_id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-  tags = local.tags
-}
-resource "aws_route_table_association" "public_rt_association_az2" {
-  route_table_id = aws_route_table.public_route_table_az2.id
-  subnet_id = var.subnet_az_2
-}
-
-resource "aws_route_table" "public_route_table_az3" {
-  vpc_id = var.private_vpc_id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-  tags = local.tags
-}
-resource "aws_route_table_association" "public_rt_association_az3" {
-  route_table_id = aws_route_table.public_route_table_az3.id
-  subnet_id = var.subnet_az_3
-}
-
 resource "aws_security_group" "bastion_sg" {
   name = "webinar-kafka-ops Bastion Security Group"
-  description = "Allow 8080 from anywhere"
-  vpc_id = var.private_vpc_id
+  description = "Allow 22 from anywhere"
+  vpc_id = var.public_vpc_id
   ingress {
-    from_port = 8080
+    from_port = 22
     protocol = "tcp"
-    to_port = 8080
+    to_port = 22
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
@@ -69,7 +25,7 @@ resource "aws_security_group" "bastion_sg" {
 resource "aws_instance" "bastion_host" {
   ami           = "ami-03c3a7e4263fd998c"
   instance_type = "t2.micro"
-  subnet_id = var.subnet_az_1
+  subnet_id = var.public_subnet_id
   associate_public_ip_address = true
   security_groups = [aws_security_group.bastion_sg.id]
   key_name = "webinar_kafka_ops_bastion_key"
@@ -81,6 +37,6 @@ resource "aws_eip" "nat_gateway_eip" {
 }
 resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.nat_gateway_eip.id
-  subnet_id = var.subnet_az_1
+  subnet_id = var.public_subnet_id
   tags = local.tags
 }
