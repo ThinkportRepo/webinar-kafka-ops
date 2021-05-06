@@ -19,7 +19,7 @@ public class StocksSink {
     private static final ObjectMapper oMapper = new ObjectMapper();
     private static final Logger LOGGER = LoggerFactory.getLogger(StocksSink.class);
 
-    @KafkaListener(topics = "stocks")
+    @KafkaListener(topics = "${stocks.kafka.topic}")
     public void handleIncomingMessage(String message, @Header(KafkaHeaders.MESSAGE_KEY) String symbol) {
 
         KafkaStockMessage ksm;
