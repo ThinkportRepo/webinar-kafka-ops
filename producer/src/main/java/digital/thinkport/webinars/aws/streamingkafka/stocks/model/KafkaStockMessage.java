@@ -1,15 +1,9 @@
 package digital.thinkport.webinars.aws.streamingkafka.stocks.model;
 
-import digital.thinkport.webinars.aws.streamingkafka.stocks.kafkawriter.IKafkaMessageHasTopicEmbedded;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.math.BigDecimal;
 
-public class KafkaStockMessage implements IKafkaMessageHasTopicEmbedded {
+public class KafkaStockMessage {
     private BigDecimal price;
-
-    @Value("${stocks.kafka.topic}")
-    private String topic;
 
     private final String symbol;
 
@@ -29,10 +23,5 @@ public class KafkaStockMessage implements IKafkaMessageHasTopicEmbedded {
     @Override
     public String toString() {
         return this.getSymbol().concat(" : ").concat(this.getPrice().toString());
-    }
-
-    @Override
-    public String getTopic() {
-        return topic;
     }
 }
